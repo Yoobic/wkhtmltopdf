@@ -5,35 +5,41 @@ var arch = os.arch();
 var exec = require('child_process').exec;
 var src, output, cmd;
 
-if(platform === 'darwin'){ //OSX
+if (platform === 'darwin') { //OSX
   output = 'wkhtmltopdf.pkg';
-  if(arch.indexOf('64') > -1){ //64bit
+  if (arch.indexOf('64') > -1) { //64bit
     src = 'http://download.gna.org/wkhtmltopdf/0.12/0.12.3/wkhtmltox-0.12.3_osx-cocoa-x86-64.pkg';
   } else { //32bit
     src = 'http://download.gna.org/wkhtmltopdf/0.12/0.12.3/wkhtmltox-0.12.3_osx-carbon-i386.pkg';
   }
   cmd = "installer -pkg wkhtmltopdf.pkg -target /";
-} else if (platform === 'win32'){ //windows
- // TO DO
+} else if (platform === 'win32') { //windows
+  // TO DO
 } else { //linux
   output = 'wkhtmltopdf.tar.xz';
-  if(arch.indexOf('64') > -1){ //64bit
+  if (arch.indexOf('64') > -1) { //64bit
     src = 'http://download.gna.org/wkhtmltopdf/0.12/0.12.3/wkhtmltox-0.12.3_linux-generic-amd64.tar.xz';
   } else { //32bit
     src = 'http://download.gna.org/wkhtmltopdf/0.12/0.12.3/wkhtmltox-0.12.3_linux-generic-i386.tar.xz';
   }
-  cmd = "tar -xvf wkhtmltopdf.tar.xz && cp ./wkhtmltox/bin/wkhtmlto* /usr/bin && cp ./wkhtmltox/bin/wkhtmlto* /usr/local/bin";
+  cmd = "tar -xvf wkhtmltopdf.tar.xz && export PATH=$PATH:$PWD/wkhtmltox/bin";
 }
 
 var download = wget.download(src, output, {});
-download.on('error', function(err) {
-    console.log(err);
+download.on('error', function (err) {
+  console.log(err);
 });
-download.on('end', function(output) {
-  exec(cmd, function(error, stdout, stderr){
+download.on('end', function (output) {
+  exec(cmd, function (error, stdout, stderr) {
     if (error) {
-      console.error(`exec error: ${error}`);
-      return;
+      //console.error(`exec error: ${error} ${stdout}`);
+      exec("sudo " + cmd, function (error, stdout, stderr) {
+        if (error) {
+          console.error(`exec error: ${error} ${stdout}`);
+          return;
+        }
+        console.log('wkhtmltopdf Successfully installed');
+      });
     }
     console.log('wkhtmltopdf Successfully installed');
   });
