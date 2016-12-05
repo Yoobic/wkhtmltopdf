@@ -33,14 +33,17 @@ download.on('end', function (output) {
   exec(cmd, function (error, stdout, stderr) {
     if (error) {
       //console.error(`exec error: ${error} ${stdout}`);
+      console.log('Installing wkhtmltopdf with sudo command');
       exec("sudo " + cmd, function (error, stdout, stderr) {
         if (error) {
           console.error(`exec error: ${error} ${stdout}`);
           return;
+        } else {
+          console.log('wkhtmltopdf Successfully installed');
         }
-        console.log('wkhtmltopdf Successfully installed');
       });
+    } else {
+      console.log('wkhtmltopdf Successfully installed');
     }
-    console.log('wkhtmltopdf Successfully installed');
   });
 });
