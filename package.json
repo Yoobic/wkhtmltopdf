@@ -4,6 +4,7 @@
   "description": "Install wkhtmltopdf package on any OS with NPM or Yarn",
   "main": "wkhtmltopdf.js",
   "scripts": {
+    "release": "mcfly-semantic-release",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -28,6 +29,10 @@
   },
   "preferGlobal": "true",
   "dependencies": {
+    "arch": "^2.1.0",
     "wget-improved": "^1.4.0"
+  },
+  "devDependencies": {
+    "mcfly-semantic-release": "^1.0.19"
   }
 }
