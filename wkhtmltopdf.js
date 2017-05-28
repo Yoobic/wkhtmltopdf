@@ -1,7 +1,7 @@
 var os = require('os');
 var platform = os.platform();
 var wget = require('wget-improved');
-var arch = os.arch();
+var arch = require('arch');
 var exec = require('child_process').exec;
 var src, output, cmd;
 
