@@ -5,22 +5,27 @@ var arch = require('arch');
 var exec = require('child_process').exec;
 var src, output, cmd;
 
+const RELEASES_URL = 'https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download';
+const VERSION = '0.12.3';
+
 if (platform === 'darwin') { //OSX
   output = 'wkhtmltopdf.pkg';
   if (arch().indexOf('64') > -1) { //64bit
-    src = 'https://downloads.wkhtmltopdf.org/0.12/0.12.3/wkhtmltox-0.12.3_osx-cocoa-x86-64.pkg';
+    src = `${RELEASES_URL}/${VERSION}/wkhtmltox-${VERSION}_osx-cocoa-x86-64.pkg`;
   } else { //32bit
-    src = 'https://downloads.wkhtmltopdf.org/0.12/0.12.3/wkhtmltox-0.12.3_osx-carbon-i386.pkg';
+    src = `${RELEASES_URL}/${VERSION}/wkhtmltox-${VERSION}_osx-carbon-i386.pkg`;
   }
   cmd = "installer -pkg wkhtmltopdf.pkg -target /";
 } else if (platform === 'win32') { //windows
   // TO DO
+  console.warn('win32 OS is not supported');
+  process.exit(0);
 } else { //linux
   output = 'wkhtmltopdf.tar.xz';
   if (arch().indexOf('64') > -1) { //64bit
-    src = 'https://downloads.wkhtmltopdf.org/0.12/0.12.3/wkhtmltox-0.12.3_linux-generic-amd64.tar.xz';
+    src = `${RELEASES_URL}/${VERSION}/wkhtmltox-${VERSION}_linux-generic-amd64.tar.xz`;
   } else { //32bit
-    src = 'https://downloads.wkhtmltopdf.org/0.12/0.12.3/wkhtmltox-0.12.3_linux-generic-i386.tar.xz';
+    src = `${RELEASES_URL}/${VERSION}/wkhtmltox-${VERSION}_linux-generic-i386.tar.xz`;
   }
   cmd = "tar -xvf wkhtmltopdf.tar.xz -C bin";
 }
