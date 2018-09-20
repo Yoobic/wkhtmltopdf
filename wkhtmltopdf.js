@@ -6,14 +6,15 @@ var exec = require('child_process').exec;
 var src, output, cmd;
 
 const RELEASES_URL = 'https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download';
-const VERSION = '0.12.3';
+const VERSION = '0.12.5';
+const VERSION_SUFFIX = '-1';
 
 if (platform === 'darwin') { //OSX
   output = 'wkhtmltopdf.pkg';
   if (arch().indexOf('64') > -1) { //64bit
-    src = `${RELEASES_URL}/${VERSION}/wkhtmltox-${VERSION}_osx-cocoa-x86-64.pkg`;
+    src = `${RELEASES_URL}/${VERSION}/wkhtmltox-${VERSION}${VERSION_SUFFIX}.macos-cocoa.pkg`;
   } else { //32bit
-    src = `${RELEASES_URL}/${VERSION}/wkhtmltox-${VERSION}_osx-carbon-i386.pkg`;
+    src = `${RELEASES_URL}/${VERSION}/wkhtmltox-${VERSION}${VERSION_SUFFIX}.macos-carbon.pkg`;
   }
   cmd = "installer -pkg wkhtmltopdf.pkg -target /";
 } else if (platform === 'win32') { //windows
@@ -21,13 +22,13 @@ if (platform === 'darwin') { //OSX
   console.warn('win32 OS is not supported');
   process.exit(0);
 } else { //linux
-  output = 'wkhtmltopdf.tar.xz';
+  output = 'wkhtmltopdf.deb';
   if (arch().indexOf('64') > -1) { //64bit
-    src = `${RELEASES_URL}/${VERSION}/wkhtmltox-${VERSION}_linux-generic-amd64.tar.xz`;
+    src = `${RELEASES_URL}/${VERSION}/wkhtmltox_${VERSION}${VERSION_SUFFIX}.bionic_amd64.deb`;
   } else { //32bit
-    src = `${RELEASES_URL}/${VERSION}/wkhtmltox-${VERSION}_linux-generic-i386.tar.xz`;
+    src = `${RELEASES_URL}/${VERSION}/wkhtmltox_${VERSION}${VERSION_SUFFIX}.bionic_i386.deb`;
   }
-  cmd = "tar -xvf wkhtmltopdf.tar.xz -C bin";
+  cmd = "apt install ./wkhtmltopdf.deb";
 }
 
 var download = wget.download(src, output, {});
