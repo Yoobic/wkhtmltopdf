@@ -24,7 +24,7 @@ if (platform === 'darwin') { //OSX
   process.exit(0);
 } else { //linux
   output = 'wkhtmltopdf.deb';
-  const release = execSync('lsb_release -a');
+  const release = execSync('lsb_release -a', { encoding: 'utf8' });
   const m = release.match(/^Codename:\s+(\w+)/);
   const distro = m[1].toLowerCase() || 'bionic';
   if (arch().indexOf('64') > -1) { //64bit
