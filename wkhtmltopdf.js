@@ -26,8 +26,8 @@ if (platform === 'darwin') { //OSX
   output = 'wkhtmltopdf.deb';
   const release = execSync('cat /etc/*-release', { encoding: 'utf8' });
   let [m, distro] = release.match(/codename="?(\w+)"?/i) || release.match(/version="[^"]*\((\w+)\)"/i);
-  distro = distro ? distro.toLowerCase() : 'bionic';
-  if (arch().indexOf('64') > -1) { //64bit
+  distro = distro && distro.toLowerCase();
+  if (distro && arch().indexOf('64') > -1) { //64bit
     src = `${RELEASES_URL}/${VERSION}/wkhtmltox_${VERSION}${VERSION_SUFFIX}.${distro}_amd64.deb`;
   } else { //32bit
     src = `${RELEASES_URL}/${VERSION}/wkhtmltox_${VERSION}${VERSION_SUFFIX}.${distro}_i386.deb`;
@@ -44,7 +44,7 @@ download.on('end', function (output) {
     if (error) {
       //console.error(`exec error: ${error} ${stdout}`);
       console.log('Installing wkhtmltopdf with sudo command');
-      exec("sudo " + cmd, function (error, stdout, stderr) {
+      exec(`which sudo && sudo ${cmd} || ${cmd}`, function (error, stdout, stderr) {
         if (error) {
           console.error(`exec error: ${error} ${stdout}`);
           return;
