@@ -24,9 +24,9 @@ if (platform === 'darwin') { //OSX
   process.exit(0);
 } else { //linux
   output = 'wkhtmltopdf.deb';
-  const release = execSync('lsb_release -a', { encoding: 'utf8' });
-  const m = release.match(/^Codename:\s+(\w+)/);
-  const distro = m[1].toLowerCase() || 'bionic';
+  const release = execSync('cat /etc/*-release', { encoding: 'utf8' });
+  let [m, distro] = release.match(/codename="?(\w+)"?/i) || release.match(/version="[^"]*\((\w+)\)"/i);
+  distro = distro ? distro.toLowerCase() : 'bionic';
   if (arch().indexOf('64') > -1) { //64bit
     src = `${RELEASES_URL}/${VERSION}/wkhtmltox_${VERSION}${VERSION_SUFFIX}.${distro}_amd64.deb`;
   } else { //32bit
