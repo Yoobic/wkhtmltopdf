@@ -26,7 +26,7 @@ if (platform === 'darwin') { //OSX
   output = 'wkhtmltopdf.deb';
   const release = execSync('lsb_release -a');
   const m = release.match(/^Codename:\s+(\w+)/);
-  const distro = m[1].toLowerCase() || ;
+  const distro = m[1].toLowerCase() || 'bionic';
   if (arch().indexOf('64') > -1) { //64bit
     src = `${RELEASES_URL}/${VERSION}/wkhtmltox_${VERSION}${VERSION_SUFFIX}.${distro}_amd64.deb`;
   } else { //32bit
